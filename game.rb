@@ -9,16 +9,15 @@ class Game
 
   def initialize
     @board = %w[0 1 2 3 4 5 6 7 8]
-    @player = Player.new
-    @computer = Computer.new('O')
+    @player_one = Player.new
+    @player_two = ask_game_mode
   end
 
   def start_game
     display_board
 
     until game_over(@board) || tie(@board)
-      player_turn
-      computer_turn
+      play
       display_board
     end
 
@@ -26,6 +25,12 @@ class Game
   end
 
   private
+
+  def ask_game_mode
+    puts 'Enter 1 for single player or 2 for multiplayer:'
+    mode = gets.chomp
+    mode == '1' ? Computer.new('O') : Player.new('X')
+  end
 
   def display_board
     puts "
@@ -38,14 +43,20 @@ class Game
     puts 'Enter [0-8]:'
   end
 
-  def player_turn
-    spot = @player.move(@board)
-    @board[spot] = @player.marker unless spot.nil?
+  def play
+    @player_one.instance_of?(Player) ? player_turn(@player_one) : computer_turn(@player_one)
+    display_board if @player_two.instance_of?(Player)
+    @player_two.instance_of?(Player) ? player_turn(@player_two) : computer_turn(@player_two)
   end
 
-  def computer_turn
-    spot = @computer.move(@board) if !game_over(@board) && !tie(@board)
-    @board[spot] = @computer.marker unless spot.nil?
+  def player_turn(player)
+    spot = player.move(@board)
+    @board[spot] = player.marker unless spot.nil?
+  end
+
+  def computer_turn(computer)
+    spot = computer.move(@board) if !game_over(@board) && !tie(@board)
+    @board[spot] = computer.marker unless spot.nil?
   end
 end
 
