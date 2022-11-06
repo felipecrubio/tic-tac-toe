@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# Class Computer is the NPC of the game.
 class Computer
   attr_reader :marker
 
   include GameRules
 
-  def initialize(marker = 'X', player_marker)
+  def initialize(player_marker, marker = 'X')
     @marker = marker
     @player_marker = player_marker
   end

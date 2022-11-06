@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'game_rules'
 
+# Class Player is the human player of the game.
 class Player
   attr_reader :marker
 

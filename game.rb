@@ -8,7 +8,6 @@ class Game
   include GameRules
 
   def initialize
-    super
     @board = %w[0 1 2 3 4 5 6 7 8]
     @player = Player.new
     @computer = Computer.new('O')
