@@ -7,7 +7,8 @@ module GameRules
   end
 
   def invalid_move
-    puts "That's not a valid move. Try again."
+    puts "That's not a valid move. Enter [0-8]:"
+    print '> '
     nil
   end
 
