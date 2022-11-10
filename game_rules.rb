@@ -3,6 +3,8 @@
 # Class GameRules defines the rules of the games
 module GameRules
   def valid_move?(board, spot)
+    # return false unless board.include?(spot)
+
     board[spot] != 'X' && board[spot] != 'O'
   end
 

@@ -7,17 +7,17 @@ class Player
   attr_reader :marker
 
   include GameRules
-
-  def initialize(name = 'Player One', marker = 'O')
-    @name = name
-    @marker = marker
+  # name = 'Player One', marker = 'O'
+  def initialize(attributes = {})
+    @name = attributes[:name] || 'Player One'
+    @marker = attributes[:marker] || 'O'
     ask_name
   end
 
   def move(board)
     spot = nil
     until spot
-      spot = gets.chomp.to_i
+      spot = ask_for_move
       valid_move?(board, spot) ? board[spot] = @marker : spot = invalid_move
     end
     spot
@@ -29,7 +29,7 @@ class Player
   end
 
   def wins
-    puts "#{@name} wins!"
+    puts "\n#{@name} wins!"
   end
 
   private
@@ -40,5 +40,14 @@ Type your name or press Enter to go as #{@name}:"
     print '> '
     name = gets.chomp
     @name = name unless name == ''
+  end
+
+  def ask_for_move
+    spot = gets.chomp
+    until spot.match?(/[0-8]/)
+      invalid_move
+      spot = gets.chomp
+    end
+    spot.to_i
   end
 end

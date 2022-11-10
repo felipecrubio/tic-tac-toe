@@ -6,10 +6,11 @@ class Computer
 
   include GameRules
 
-  def initialize(player_marker, marker = 'X', sleep_time = 0)
-    @marker = marker
-    @player_marker = player_marker
-    @sleep_time = sleep_time
+  def initialize(attributes = {})
+    @marker = attributes[:marker] || 'X'
+    @player_marker = attributes[:player_marker] || 'O'
+    @sleep_time = attributes[:sleep_time] || 0
+    @difficulty = attributes[:difficulty] || 3
   end
 
   def move(board)
@@ -25,7 +26,8 @@ class Computer
   end
 
   def announce_turn
-    puts "Computer #{@marker} is making it's move!"
+    puts "Computer #{@marker} is making it's move!" if @sleep_time.positive?
+    puts "\nComputer #{@marker} made it's move!" if @sleep_time.zero?
   end
 
   def wins
@@ -46,10 +48,10 @@ class Computer
   def calculate_best_move(board, available_spots)
     available_spots.each do |spot|
       board[spot.to_i] = @marker
-      return evaluate(board, spot) if game_over(board)
+      return evaluate(board, spot) if game_over(board) && @difficulty > 2
 
       board[spot.to_i] = @player_marker
-      return evaluate(board, spot) if game_over(board)
+      return evaluate(board, spot) if game_over(board) && @difficulty > 1
 
       board[spot.to_i] = spot
     end
